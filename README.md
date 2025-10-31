@@ -28,8 +28,11 @@ pip install -r requirements.txt
 
 Run the face tracker:
 ```bash
-python face_tracker.py
+python tracker.py
 ```
+
+deploy arduino code(tracker.ino) on arduino uno board
+
 
 ### Controls
 - Press 'q' to quit the application
