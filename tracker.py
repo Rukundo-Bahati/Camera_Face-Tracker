@@ -6,9 +6,11 @@ import serial
 # =============================
 # SERIAL COMMUNICATION SETUP
 # =============================
+# TEMPORARILY DISABLED - Arduino communication commented out for camera testing
 # Change 'COM3' to your Arduino port (Windows) or '/dev/ttyUSB0' on Linux/Mac
-arduino = serial.Serial('COM10', 9600, timeout=1)
-time.sleep(2)  # wait for Arduino to initialize
+# arduino = serial.Serial('COM11', 9600, timeout=1)
+# time.sleep(2)  # wait for Arduino to initialize
+arduino = None  # Disabled for testing
 
 # =============================
 # CONFIGURATION
@@ -55,8 +57,11 @@ while True:
     else:
         movement_direction = "CENTERED"
 
-    # Send command to Arduino
-    arduino.write((movement_direction + "\n").encode())
+    # Send command to Arduino (TEMPORARILY DISABLED)
+    if arduino:  # Only send if Arduino is connected
+        arduino.write((movement_direction + "\n").encode())
+    else:
+        print(f"Arduino command: {movement_direction}")  # Debug output instead
 
     # Display info
     cv2.putText(frame, f"Direction: {movement_direction}", (10, 30),
@@ -67,6 +72,7 @@ while True:
         break
 
 cap.release()
-arduino.close()
+if arduino:  # Only close if Arduino was connected
+    arduino.close()
 cv2.destroyAllWindows()
 print("👋 Tracking stopped.")
